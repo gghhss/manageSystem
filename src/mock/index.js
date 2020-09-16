@@ -3,7 +3,7 @@ import homeApi from './home'
 
 //设置延时200-2000毫秒
 Mock.setup({
-  timeout: '200-2000'
+  timeout: '20-200'
 })
 
 //首页相关

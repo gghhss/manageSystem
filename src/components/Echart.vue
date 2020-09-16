@@ -1,6 +1,6 @@
 <template>
   <div style="height:100%" ref="echart">
-    Echarts
+    <p style="color:#ccc">加载中......</p>
   </div>
 </template>
 
@@ -25,6 +25,9 @@ export default {
   computed: {
     options() {
       return this.isAxisChart ? this.axisOption : this.normalOption
+    },
+    isCollapse() {
+      return this.$store.state.tab.isCollapse
     }
   },
   watch: {
@@ -33,26 +36,79 @@ export default {
         this.initChart()
       },
       deep: true
+    },
+    isCollapse() {
+      setTimeout(() => {
+        this.resizeChart()
+      }, 200)
     }
   },
   data() {
     return {
       echart: null,
       axisOption: {
-        xAxis: [
-          {
-            type: 'category',
-            data: []
+        legend: {
+          textStyle: {
+            color: '#333'
           }
-        ],
+        },
+        tooltip: {
+          trigger: 'axis'
+        },
+        grid: {
+          left: '15%'
+        },
+        xAxis: {
+          type: 'category',
+          data: [],
+          axisLine: {
+            lineStyle: {
+              color: '#17b3a3'
+            }
+          },
+          axisLabel: {
+            color: '#333'
+          }
+        },
         yAxis: [
           {
-            type: 'value'
+            type: 'value',
+            axisLine: {
+              lineStyle: {
+                color: '#17b3a3'
+              }
+            }
           }
+        ],
+        color: [
+          '#2ec7c9',
+          '#b6a2de',
+          '#5ab1ef',
+          '#ffb980',
+          '#d87a80',
+          '#8d98b3',
+          '#e5cf0d',
+          '#97b552',
+          '#95706d',
+          '#dc69aa',
+          '#07a2a4',
+          '#9a7fd1',
+          '#588dd5',
+          '#f5994e',
+          '#c05050',
+          '#59678c',
+          '#c9ab00',
+          '#7eb00a',
+          '#6f5553',
+          '#c14089'
         ],
         series: []
       },
       normalOption: {
+        tooltip: {
+          trigger: 'item'
+        },
+        color: ['#0f78f4', '#dd536b', '#9462e5', '#a6a6a6', '#e1bb22', '#39c362', '#3ed1cf'],
         series: []
       }
     }
@@ -74,7 +130,16 @@ export default {
       } else {
         this.normalOption.series = this.chartData.series
       }
+    },
+    resizeChart() {
+      this.echart ? this.echart.resize() : ''
     }
+  },
+  mounted() {
+    window.addEventListener('resize', this.resizeChart)
+  },
+  destroyed() {
+    window.removeEventListener('resize', this.resizeChart)
   }
 }
 </script>

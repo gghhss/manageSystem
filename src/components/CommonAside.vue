@@ -8,6 +8,10 @@
     text-color="#fff"
     active-text-color="#ffd04b"
   >
+    <div>
+      <h3 v-show="!isCollapse">海上明月共潮生</h3>
+      <h3 v-show="isCollapse">海生</h3>
+    </div>
     <el-menu-item :index="item.path" v-for="item in noChildren" :key="item.path" @click="clickMenu(item)">
       <i :class="'el-icon-' + item.icon"></i>
       <span slot="title">{{ item.label }}</span>
@@ -90,11 +94,20 @@ export default {
 </script>
 <style lang="scss" scoped>
 .el-menu-vertical-demo:not(.el-menu--collapse) {
-  width: 200px;
+  width: 240px;
   min-height: 400px;
 }
 .el-menu {
   height: 100%;
   border: none;
+  div {
+    height: 60px;
+    overflow: hidden;
+  }
+  h3 {
+    color: #fff;
+    line-height: 60px;
+    text-align: center;
+  }
 }
 </style>

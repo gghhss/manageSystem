@@ -125,7 +125,7 @@ export default {
         console.log(res.data)
         //订单折线图
         const order = res.data.orderData
-        this.echartData.order.xData = order.data
+        this.echartData.order.xData = order.date
         // 1、去除series中key
         let keyArray = Object.keys(order.data[0])
 
@@ -137,23 +137,23 @@ export default {
           })
         })
         // 2、用户饼状图
-        this.echartData.user.xData = res.data.userData
-        let keyArray_user = Object.keys(res.data.userData[0])
-        keyArray_user.forEach(key => {
-          this.echartData.user.series.push({
-            name: key,
-            data: res.data.userData.map(item => item[key]),
-            type: 'bar'
-          })
+        this.echartData.user.xData = res.data.userData.map(item => item.date)
+        this.echartData.user.series.push({
+          name: '新增用户',
+          data: res.data.userData.map(item => item.new),
+          type: 'bar'
         })
+        this.echartData.user.series.push({
+          name: '活跃用户',
+          data: res.data.userData.map(item => item.active),
+          type: 'bar',
+          barGap: 0
+        })
+        // })
         // 3、饼状图
-        let keyArray_video = Object.keys(res.data.videoData[0])
-        keyArray_video.forEach(key => {
-          this.echartData.video.series.push({
-            name: key,
-            data: res.data.videoData.map(item => item[key]),
-            type: 'pie'
-          })
+        this.echartData.video.series.push({
+          data: res.data.videoData,
+          type: 'pie'
         })
       })
     }
